@@ -17,9 +17,7 @@ class ChaosForms
 
                 Grid::make()
                     ->schema($schema)
-                    ->columnSpan(function (string $operation) use ($form, $sideSections) {
-                        return (! empty($sideSections) && ($operation === 'edit' && (new $form->model)->usesTimestamps())) ? 3 : 4;
-                    }),
+                    ->columnSpan(fn (string $operation) => (static::showSideSection($operation, $sideSections, $form)) ? 3 : 4),
 
                 Grid::make()
                     ->schema([
@@ -62,15 +60,18 @@ class ChaosForms
                             ])
                             ->icon('tabler-info-circle-filled')
                             ->collapsible()
-                            ->visible(function (string $operation) use ($form, $sideSections) {
-                                return ! empty($sideSections) && ($operation === 'edit' && (new $form->model)->usesTimestamps());
-                            }),
+                            ->visible(fn (string $operation) => static::showSideSection($operation, $sideSections, $form)),
                     ])
-                    ->visible(function (string $operation) use ($sideSections, $form) {
-                        return ! empty($sideSections) && ($operation === 'edit' && (new $form->model)->usesTimestamps());
-                    })
+                    ->visible(fn (string $operation) => static::showSideSection($operation, $sideSections, $form))
                     ->columnSpan(['sm' => 1]),
             ]),
         ]);
+    }
+
+    public static function showSideSection($operation, $sideSections, $form): bool
+    {
+        return
+            ($operation === 'edit' && (new $form->model)->usesTimestamps())
+            || ! empty($sideSections);
     }
 }
