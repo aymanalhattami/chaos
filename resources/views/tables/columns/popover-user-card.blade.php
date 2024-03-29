@@ -6,8 +6,8 @@
         />
 
         <h5 class="mb-1 text-xl font-medium text-gray-900 dark:text-white">{{ $user?->name }}</h5>
-        <span class="text-sm text-gray-500 dark:text-gray-400">{{ $user?->email }}</span>
-        <div class="flex mt-4 md:mt-6 gap-4">
+        {{--<span class="text-sm text-gray-500 dark:text-gray-400">{{ $user?->email }}</span>--}}
+        {{--<div class="flex mt-4 md:mt-6 gap-4">
 
             <x-filament::button color="secondary" size="xs">
                 view profile
@@ -17,6 +17,6 @@
                 Message
             </x-filament::button>
 
-        </div>
+        </div>--}}
     </div>
 </div>
