@@ -18,10 +18,11 @@ class ChaosForms
                 Grid::make()
                     ->schema($schema)
                     ->columnSpan(function (string $operation) use ($form, $sideSections) {
-                        return (! empty($sideSections) || ($operation === 'edit' && (new $form->model)->usesTimestamps())) ? 3 : 4;
+                        return (! empty($sideSections) && ($operation === 'edit' && (new $form->model)->usesTimestamps())) ? 3 : 4;
                     }),
 
-                Grid::make()->schema([
+                Grid::make()
+                    ->schema([
                     ...$sideSections,
                     Section::make(__('zeus-chaos::core.record_info'))
                         ->columns(1)
@@ -62,11 +63,11 @@ class ChaosForms
                         ->icon('tabler-info-circle-filled')
                         ->collapsible()
                         ->visible(function (string $operation) use ($form, $sideSections) {
-                            return ! empty($sideSections) || ($operation === 'edit' && (new $form->model)->usesTimestamps());
+                            return ! empty($sideSections) && ($operation === 'edit' && (new $form->model)->usesTimestamps());
                         }),
                 ])
                     ->visible(function (string $operation) use ($sideSections, $form) {
-                        return ! empty($sideSections) || ($operation === 'edit' && (new $form->model)->usesTimestamps());
+                        return ! empty($sideSections) && ($operation === 'edit' && (new $form->model)->usesTimestamps());
                     })
                     ->columnSpan(['sm' => 1]),
             ]),
