@@ -71,7 +71,7 @@ class ChaosForms
     public static function showSideSection(string $operation, array $sideSections, Form $form): bool
     {
         return
-            ($operation === 'edit' && (new $form->model)->usesTimestamps())
-            || ! empty($sideSections);
+            ! empty($sideSections)
+            && ($operation === 'edit' && (new $form->model)->usesTimestamps());
     }
 }
