@@ -72,6 +72,6 @@ class ChaosForms
     {
         return
             ! empty($sideSections)
-            && ($operation === 'edit' && (new $form->model)->usesTimestamps());
+            || ($operation === 'edit' && (new $form->model)->usesTimestamps());
     }
 }
