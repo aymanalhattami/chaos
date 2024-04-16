@@ -85,7 +85,7 @@ class ChaosTables
                 Tables\Actions\ActionGroup::make([
                     ...$actions,
                     Tables\Actions\ViewAction::make()
-                        ->visible(fn() => static::resourceHasPage($resource, 'view')),
+                        ->visible(fn () => static::resourceHasPage($resource, 'view')),
                     Tables\Actions\EditAction::make()->color('info')->visible(static::resourceHasPage($resource, 'edit')),
                     Tables\Actions\DeleteAction::make()
                         ->visible(
