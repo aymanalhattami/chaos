@@ -70,13 +70,6 @@ class ChaosForms
 
     public static function showSideSection(string $operation, array $sideSections, Form $form): bool
     {
-        $visibleSideSections = [];
-        foreach ($sideSections as $sideSection) {
-            if ($sideSection->isVisible()) {
-                //$visibleSideSections[] = $sideSection;
-            }
-        }
-
         return
             ! empty($sideSections)
             || ($operation === 'edit' && (new $form->model)->usesTimestamps());
