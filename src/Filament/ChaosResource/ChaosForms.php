@@ -78,7 +78,7 @@ class ChaosForms
         }
 
         return
-            ! empty($visibleSideSections)
+            ! empty($sideSections)
             || ($operation === 'edit' && (new $form->model)->usesTimestamps());
     }
 }
