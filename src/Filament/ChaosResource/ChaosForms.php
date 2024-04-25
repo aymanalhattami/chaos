@@ -73,12 +73,12 @@ class ChaosForms
         $visibleSideSections = [];
         foreach ($sideSections as $sideSection) {
             if ($sideSection->isVisible()) {
-                $visibleSideSections[] = $sideSection;
+                //$visibleSideSections[] = $sideSection;
             }
         }
 
         return
-            ! empty($visibleSideSections)
+            ! empty($sideSections)
             || ($operation === 'edit' && (new $form->model)->usesTimestamps());
     }
 }
