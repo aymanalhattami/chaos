@@ -2,37 +2,44 @@
 
 namespace LaraZeus\Chaos\Forms\Components;
 
+use Filament\Forms\Components\Tabs;
 use Filament\Forms\Components\TextInput;
 
-class MultiLang extends TextInput
+class MultiLang extends Tabs
 {
-    protected string $view = 'zeus-chaos::forms.components.multi-lang';
-
     protected function setUp(): void
     {
         parent::setUp();
+
         $this
-            ->default(function () {
-                $defaultDataForLang = [];
+            ->tabs(function (MultiLang $multiLangComponent) {
+                $tabs = [];
                 foreach (config('app.locales') as $lang => $info) {
-                    $defaultDataForLang[$lang] = '';
+                    $tabs[] = Tabs\Tab::make('tab-' . $lang)
+                        ->statePath($this->getLabel())
+                        ->label($info['name'])
+                        ->formatStateUsing(function (): array {
+                            $defaultDataForLang = [];
+
+                            foreach (config('app.locales') as $lang => $info) {
+                                if (static::getRecord() === null) {
+                                    $defaultDataForLang[$lang] = '';
+                                } else {
+                                    // @phpstan-ignore-next-line
+                                    $defaultDataForLang[$lang] = static::getRecord()->getTranslation('name', $lang);
+                                }
+                            }
+
+                            return $defaultDataForLang;
+                        })
+                        ->schema(fn (Tabs\Tab $tabComponent) => [
+                            TextInput::make($lang)
+                                ->required(fn () => app()->getLocale() === $lang)
+                                ->label(fn () => $multiLangComponent->getLabel()),
+                        ]);
                 }
 
-                return $defaultDataForLang;
-            })
-            ->formatStateUsing(function () {
-                $defaultDataForLang = [];
-
-                foreach (config('app.locales') as $lang => $info) {
-                    if (static::getRecord() === null) {
-                        $defaultDataForLang[$lang] = '';
-                    } else {
-                        // @phpstan-ignore-next-line
-                        $defaultDataForLang[$lang] = static::getRecord()->getTranslation('name', $lang);
-                    }
-                }
-
-                return $defaultDataForLang;
+                return $tabs;
             });
     }
 }
