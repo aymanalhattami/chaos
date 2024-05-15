@@ -8,7 +8,7 @@ use Filament\Forms\Components\TextInput;
 class MultiLang extends Tabs
 {
     public static string $theMainKeyThingy = '';
-    
+
     public static function make(?string $label = null): static
     {
         static::$theMainKeyThingy = $label;
