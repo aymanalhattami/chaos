@@ -11,7 +11,7 @@ class MultiLang extends Tabs
 
     public static function make(?string $label = null): static
     {
-        static::configureUsing(function($component) use ($label){
+        static::configureUsing(function ($component) use ($label) {
             $component->theMainKeyThingy = $label;
         });
 
