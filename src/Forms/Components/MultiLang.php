@@ -7,11 +7,13 @@ use Filament\Forms\Components\TextInput;
 
 class MultiLang extends Tabs
 {
-    public static string $theMainKeyThingy = '';
+    public string $theMainKeyThingy = '';
 
     public static function make(?string $label = null): static
     {
-        static::$theMainKeyThingy = $label;
+        static::configureUsing(function ($component) use ($label) {
+            $component->theMainKeyThingy = $label;
+        });
 
         return parent::make($label);
     }
@@ -25,7 +27,7 @@ class MultiLang extends Tabs
                 $tabs = [];
                 foreach (config('app.locales') as $lang => $info) {
                     $tabs[] = Tabs\Tab::make('tab-' . $lang)
-                        ->statePath(static::$theMainKeyThingy)
+                        ->statePath($this->getLangKey())
                         ->label($info['name'])
                         ->formatStateUsing(function (): array {
                             $defaultDataForLang = [];
@@ -35,7 +37,7 @@ class MultiLang extends Tabs
                                     $defaultDataForLang[$lang] = '';
                                 } else {
                                     // @phpstan-ignore-next-line
-                                    $defaultDataForLang[$lang] = static::getRecord()->getTranslation('name', $lang);
+                                    $defaultDataForLang[$lang] = static::getRecord()->getTranslation($this->getLangKey(), $lang);
                                 }
                             }
 
@@ -50,5 +52,10 @@ class MultiLang extends Tabs
 
                 return $tabs;
             });
+    }
+
+    public function getLangKey()
+    {
+        return $this->theMainKeyThingy;
     }
 }
