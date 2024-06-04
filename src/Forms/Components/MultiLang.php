@@ -29,20 +29,20 @@ class MultiLang extends Tabs
                     $tabs[] = Tabs\Tab::make('tab-' . $lang)
                         ->statePath($this->getLangKey())
                         ->label($info['name'])
-                        ->formatStateUsing(function (): array {
+                        // no need for this, cause issues on repeaters, seems filament will handle the array state from spatie
+                        /*->formatStateUsing(function (): array {
                             $defaultDataForLang = [];
 
                             foreach (config('app.locales') as $lang => $info) {
                                 if (static::getRecord() === null) {
                                     $defaultDataForLang[$lang] = '';
                                 } else {
-                                    // @phpstan-ignore-next-line
                                     $defaultDataForLang[$lang] = static::getRecord()->getTranslation($this->getLangKey(), $lang);
                                 }
                             }
 
                             return $defaultDataForLang;
-                        })
+                        })*/
                         ->schema(fn (Tabs\Tab $tabComponent) => [
                             TextInput::make($lang)
                                 ->required(fn () => app()->getLocale() === $lang)
@@ -54,7 +54,7 @@ class MultiLang extends Tabs
             });
     }
 
-    public function getLangKey()
+    public function getLangKey(): string
     {
         return $this->theMainKeyThingy;
     }
