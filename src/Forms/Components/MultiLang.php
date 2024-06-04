@@ -37,7 +37,6 @@ class MultiLang extends Tabs
                                 if (static::getRecord() === null) {
                                     $defaultDataForLang[$lang] = '';
                                 } else {
-                                    // @phpstan-ignore-next-line
                                     $defaultDataForLang[$lang] = static::getRecord()->getTranslation($this->getLangKey(), $lang);
                                 }
                             }
@@ -55,7 +54,7 @@ class MultiLang extends Tabs
             });
     }
 
-    public function getLangKey()
+    public function getLangKey(): string
     {
         return $this->theMainKeyThingy;
     }
